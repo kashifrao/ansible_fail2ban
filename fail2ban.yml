@@ -1,0 +1,20 @@
+
+    
+    - name: Install fail2ban via yum
+      yum:
+        name: fail2ban
+        state: present
+      become_user: root
+
+    - name: Copy Grafana File - grafana.ini
+      template:
+        src: "{{ansible_roles_path}}/files/fail2ban/jail.local"
+        dest: "/etc/fail2ban/jail.local"
+      become_user: root
+
+    - name: Start and Enable fail2ban Service
+      systemd:
+        name: fail2ban
+        state: started
+        enabled: yes
+      become_user: root
